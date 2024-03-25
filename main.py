@@ -8,7 +8,7 @@ df.drop_duplicates(inplace=True)
 df['Popularity'] = pd.to_numeric(df['Popularity'])
 df['Duration (s)'] = (pd.to_numeric(df['Duration (ms)'])) / 1000
 
-fig, axs = plt.subplots(1,2, figsize=(12,5))
+fig, axs = plt.subplots(2,1, figsize=(30,2))
 
 # Define duration popularity plot
 def plot_duration_popularity():
@@ -20,12 +20,16 @@ def plot_duration_popularity():
 # Define artist popularity plot
 def plot_artist_popularity():
   artist_popularity = df.groupby('Artist')['Popularity'].mean().sort_values(ascending=False)
-  artist_popularity.plot(kind='bar', ax=axs[1])
+  top_20 = artist_popularity.head(30)
+  top_20.plot(kind='bar', ax=axs[1])
   axs[1].set_xlabel('Artist')
   axs[1].set_ylabel('Popularity')
   axs[1].set_title('Artist Popularity')
+  axs[1].tick_params(axis='x', rotation=45)
 
 # Plot
 plot_duration_popularity()
 plot_artist_popularity()
+#plt.subplots_adjust(hspace=0.35)
+plt.tight_layout()
 plt.show()
